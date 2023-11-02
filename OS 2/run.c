@@ -13,10 +13,8 @@ void main(int argc , char *argv[]){
         exit(1);
     }
     
-    else{
-        if(execvp(argv[1] , &argv[1]) == -1){
-            perror("execvp");
-            exit(1);
-        }
+    if(execvp(argv[1] , &argv[1]) == -1){
+        perror("execvp");
+        exit(1);
     }
 }
