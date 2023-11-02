@@ -16,10 +16,10 @@ int main ()
 		//! Q1
 		char *const arguments[] = {"ls", "-afl", NULL};
 		//! ----------
-    	if (execvp("lsl", arguments) == -1) {
-        	perror("execvp");
+    		if (execvp("lsl", arguments) == -1) {
+        		perror("execvp");
 			exit(1);
-    	}
+    		}
 	}
 	//? *****************
 	else{
@@ -28,11 +28,11 @@ int main ()
 		wait(&status);
 		//! ----------
 		if(WIFEXITED(status)){
-        	printf("Child process (PID: %d) exited with status %d.\n", child_pid, WEXITSTATUS(status));
-        }
+        		printf("Child process (PID: %d) exited with status %d.\n", child_pid, WEXITSTATUS(status));
+        	}
 		//! ----------
         	else{
-            	printf("child process did not exit normaly \n");
+            		printf("child process did not exit normaly \n");
         	}
 	}
 	//? *****************
