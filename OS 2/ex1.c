@@ -16,7 +16,7 @@ int main ()
 		//! Q1
 		char *const arguments[] = {"ls", "-afl", NULL};
 		//! ----------
-    		if (execvp("lsl", arguments) == -1) {
+    		if (execvp("ls", arguments) == -1) {
         		perror("execvp");
 			exit(1);
     		}
