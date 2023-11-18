@@ -18,7 +18,7 @@ void *reader(void *arg) {
     printf("read the data : %d\n", data );
     //! the end of the critical section
     sem_wait(&S1);
-    readers--;
+    nl--;
     if (nl == 0) {
         sem_post(&S2);
     }
