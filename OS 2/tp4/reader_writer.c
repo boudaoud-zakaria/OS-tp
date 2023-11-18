@@ -4,13 +4,13 @@
 #include <semaphore.h>
 
 sem_t S1, S2;
-int readers = 0;
+int nl = 0;
 
 void *reader(void *arg) {
     int data = *(int*)arg;
     sem_wait(&S1);
-    readers++;
-    if (readers == 1) {
+    nl++;
+    if (nl == 1) {
         sem_wait(&S2);
     }
     sem_post(&S1);
@@ -19,7 +19,7 @@ void *reader(void *arg) {
     //! the end of the critical section
     sem_wait(&S1);
     readers--;
-    if (readers == 0) {
+    if (nl == 0) {
         sem_post(&S2);
     }
     sem_post(&S1);
