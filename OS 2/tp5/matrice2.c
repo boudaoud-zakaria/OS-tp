@@ -8,22 +8,22 @@
 
 double B[N][N], C[N][N], A[N][N];
 pthread_t threads[THREADS];
-sem_t mutex;
+sem_t empty;
 
 typedef struct {
     int row;
 } thread_args;
 
-void *worker(void *arg) {
+void *producer(void *arg) {
     thread_args *args = (thread_args *)arg;
     int i, j, k;
     for (j = 0; j < N; j++) {
-        sem_wait(&mutex);
+        sem_wait(&empty);
         A[args->row][j] = 0;
         for (k = 0; k < N; k++) {
             A[args->row][j] += B[args->row][k] * C[k][j];
         }
-        sem_post(&mutex);
+        sem_post(&empty);
     }
     return NULL;
 }
@@ -35,18 +35,18 @@ int main() {
     // Initialisation des matrices B et C
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
-            B[i][j] = i + j;
-            C[i][j] = i - j;
+            B[i][j] = 1;
+            C[i][j] = 1;
         }
     }
 
     // Initialisation du sémaphore
-    sem_init(&mutex, 0, 1);
+    sem_init(&empty, 0, 1);
 
     // Création des threads
     for (i = 0; i < THREADS; i++) {
         args[i].row = i;
-        pthread_create(&threads[i], NULL, worker, &args[i]);
+        pthread_create(&threads[i], NULL, producer, &args[i]);
     }
 
     // Attente de la fin des threads
@@ -64,7 +64,7 @@ int main() {
     }
 
     // Destruction du sémaphore
-    sem_destroy(&mutex);
+    sem_destroy(&empty);
 
     return 0;
 }

@@ -13,7 +13,7 @@ void *reader(void *arg) {
     if (nl == 1) {
         sem_wait(&S2);
     }
-    sem_post(&S1); 
+    sem_post(&S1);
     //! critical section
     printf("read the data : %d\n", data );
     //! the end of the critical section
@@ -38,7 +38,7 @@ void *writer(void *arg) {
 
 void main() {
     int data = 7;
-    pthread_t read[3], write[3];
+    pthread_t read, write;
     sem_init(&S1, 0, 1);
     sem_init(&S2, 0, 1);
     if(pthread_create(&read, NULL, reader, &data) != 0){

@@ -13,7 +13,7 @@ typedef struct {
     int end;
 } thread_args;
 
-void *worker(void *arg) {
+void *producer(void *arg) {
     thread_args *args = (thread_args *)arg;
     int i, j, k;
     for (i = args->start; i < args->end; i++) {
@@ -59,7 +59,7 @@ int main() {
     for (i = 0; i < THREADS; i++) {
         args[i].start = i * (N / THREADS);
         args[i].end = (i + 1) * (N / THREADS);
-        pthread_create(&threads[i], NULL, worker, &args[i]);
+        pthread_create(&threads[i], NULL, producer, &args[i]);
     }
 
     // Attente de la fin des threads
