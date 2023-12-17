@@ -63,13 +63,19 @@ int main() {
     for (i = 0; i < THREADS; i++) {
         args[i % THREADS].row = i % THREADS;  // Use modulo to cycle through rows
         printf(" the value of (i % THREADS) :%d \n" , i % THREADS);
-        pthread_create(&threads[i], NULL, producer, &args[i % THREADS]);
-        pthread_create(&threads[i], NULL, consumer, &args[i % THREADS]);
+        if(pthread_create(&threads[i], NULL, producer, &args[i % THREADS]) != 0){
+            perror("pthread_create error (producer) !");
+        }
+        if(pthread_create(&threads[i], NULL, consumer, &args[i % THREADS]) != 0){
+            perror("pthread_create  error (consumer) !");
+        }
     }
 
     // Wait for the threads to finish
     for (i = 0; i < THREADS * 2; i++) {
-        pthread_join(threads[i], NULL);
+        if (pthread_join(threads[i], NULL) != 0) {
+            perror("pthread_join error!");
+        }
     }
 
     // Display matrix A
